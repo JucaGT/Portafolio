@@ -503,39 +503,26 @@
                     </h5>
                   </div>
                   <div>
-                      <form action="" method="post" role="form" class="contactForm">
-                      <div id="sendmessage">Your message has been sent. Thank you!</div>
-                      <div id="errormessage"></div>
-                      <div class="row">
-                        <div class="col-md-12 mb-3">
-                          <div class="form-group">
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                            <div class="validation"></div>
-                          </div>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                          <div class="form-group">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
-                            <div class="validation"></div>
-                          </div>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <div class="form-group">
-                              <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                              <div class="validation"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                          <div class="form-group">
-                            <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
-                            <div class="validation"></div>
-                          </div>
-                        </div>
-                        <div class="col-md-12">
-                          <button type="submit" class="button button-a button-big button-rouded">Send Message</button>
-                        </div>
-                      </div>
-                    </form>
+					<form>
+						<div>
+							<input type="text" name="name" placeholder="Name" />
+						</div>
+						<div>
+							<input type="text" name="phoneNumber" placeholder="Phone Number" />
+						</div>
+						<div>
+							<input type="email" name="email" placeholder="Email" />
+						</div>
+						<div>
+							<input type="text" class="message-box" name="message" placeholder="Message" />
+						</div>
+						<div class="d-flex ">
+							<button>
+								SEND
+							</button>
+						</div>
+					</form>
+                      
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -611,6 +598,68 @@
 
   <!-- Template Main Javascript File -->
   <script src="js/main.js"></script>
+  <!-- Script Abde -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Function to handle form submission
+      function handleSubmit(event) {
+        event.preventDefault(); // Prevents the default form submission
+ 
+        // Get form data
+        const name = document.querySelector('input[name="name"]').value;
+        const phoneNumber = document.querySelector('input[name="phoneNumber"]').value;
+        const email = document.querySelector('input[name="email"]').value;
+        const message = document.querySelector('.message-box').value;
+ 
+        // Prepare data for POST request
+        const formData = {
+          name: name,
+          phoneNumber: phoneNumber,
+          email: email,
+          message: message
+        };
+ 
+        // URL to your API Gateway endpoint
+        const apiUrl = 'https://vr87udzj98.execute-api.eu-west-3.amazonaws.com/Prod/Contact';
+ 
+        // Fetch options
+        const options = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        };
+ 
+        // Fetch data
+        fetch(apiUrl, options)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            // Handle successful response
+            console.log('Data sent successfully:', data);
+            // You can add additional logic here if needed
+          })
+          .catch(error => {
+            // Handle error
+            console.error('Error sending data:', error.message);
+            // You can add additional error handling logic here if needed
+          });
+      }
+ 
+      // Get the form element
+      const form = document.querySelector('form');
+ 
+      // Add event listener for form submission
+      form.addEventListener('submit', handleSubmit);
+    });
+</script>
+<!-- Template Main Javascript File -->
 
+	
 </body>
 </html>
